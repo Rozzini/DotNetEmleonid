@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <link rel="stylesheet" href="~/css/MainPageStyles.css" />
+    <div class="ButtonsAndDropLists">
+        <form action="/action_page.php">
+            <select name="cars" id="cars">
+                <option value="volvo">---</option>
+                <option value="volvo">Pending</option>
+                <option value="saab">Completed</option>
+                <option value="opel">Canceled</option>
+            </select>
+            <br><br>
+        </form>
+
+        <form action="/action_page.php">
+            <select name="cars" id="cars">
+                <option value="volvo">---</option>
+                <option value="volvo">Refill</option>
+                <option value="saab">Withdrawal</option>
+            </select>
+            <br><br>
+        </form>
+
+        <form asp-controller="Home" asp-action="UploadFile" method="post" enctype="multipart/form-data">
+            <input type="file">
+        </form>
+
+        <form asp-controller="Home" asp-action="UploadFile" method="post" enctype="multipart/form-data">
+            <input type="file">
+        </form>
+    </div>
