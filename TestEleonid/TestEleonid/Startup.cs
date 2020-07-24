@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TestEleonid.Repository;
 
 namespace TestEleonid
 {
@@ -25,7 +26,7 @@ namespace TestEleonid
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddTransient<ITransactionRepository, TransactionRepository>();
             services.AddControllersWithViews();
         }
 
