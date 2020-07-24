@@ -9,8 +9,8 @@ using TestEleonid;
 namespace TestEleonid.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200723234250_1")]
-    partial class _1
+    [Migration("20200724141238_2")]
+    partial class _2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,13 +22,13 @@ namespace TestEleonid.Migrations
 
             modelBuilder.Entity("TestEleonid.Models.UserTransaction", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TransactionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<string>("Amount")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClientName")
                         .HasColumnType("nvarchar(max)");
@@ -39,7 +39,7 @@ namespace TestEleonid.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("TransactionId");
 
                     b.ToTable("Transactions");
                 });

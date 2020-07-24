@@ -20,13 +20,13 @@ namespace TestEleonid.Migrations
 
             modelBuilder.Entity("TestEleonid.Models.UserTransaction", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TransactionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<string>("Amount")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClientName")
                         .HasColumnType("nvarchar(max)");
@@ -37,7 +37,7 @@ namespace TestEleonid.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("TransactionId");
 
                     b.ToTable("Transactions");
                 });

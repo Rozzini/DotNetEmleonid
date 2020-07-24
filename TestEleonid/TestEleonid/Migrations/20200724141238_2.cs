@@ -2,7 +2,7 @@
 
 namespace TestEleonid.Migrations
 {
-    public partial class _1 : Migration
+    public partial class _2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -10,16 +10,16 @@ namespace TestEleonid.Migrations
                 name: "Transactions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    TransactionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Status = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: true),
                     ClientName = table.Column<string>(nullable: true),
-                    Amount = table.Column<double>(nullable: false)
+                    Amount = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transactions", x => x.Id);
+                    table.PrimaryKey("PK_Transactions", x => x.TransactionId);
                 });
         }
 

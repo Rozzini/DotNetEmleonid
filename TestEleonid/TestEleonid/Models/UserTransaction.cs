@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,7 +8,8 @@ namespace TestEleonid.Models
 {
     public class UserTransaction
     {
-        public int Id { get; set; }
+        [Key]
+        public int TransactionId { get; set; }
 
         public string Status { get; set; }
 
@@ -15,6 +17,6 @@ namespace TestEleonid.Models
 
         public string ClientName { get; set; }
 
-        public double Amount { get; set; }
+        public string Amount { get; set; }
     }
 }
