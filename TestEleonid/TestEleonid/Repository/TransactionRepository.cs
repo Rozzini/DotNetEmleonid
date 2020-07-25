@@ -25,6 +25,7 @@ namespace TestEleonid.Repository
 
         public void EditTransaction(int TransactionId, string status)
         {
+            if (status == null) return;
             var transaction = appDbContext.Transactions.FirstOrDefault(item => item.TransactionId == TransactionId);
 
             if (transaction != null)
@@ -37,6 +38,26 @@ namespace TestEleonid.Repository
         public List<UserTransaction> GetAllTransactions()
         {
             return appDbContext.Transactions.ToList();
+        }
+
+        public List<UserTransaction> GetAllTransactions(string status, string type)
+        {
+            if(status == null && type == null)
+            {
+                return appDbContext.Transactions.ToList();
+            }
+            if(type == null)
+            {
+                return appDbContext.Transactions.Where(b => b.Status == status).ToList();
+            }
+            if(status == null)
+            {
+                return appDbContext.Transactions.Where(b => b.Type == type).ToList();
+            }
+            else
+            {
+                return appDbContext.Transactions.Where(b => b.Status == status && b.Type == type).ToList();
+            }
         }
 
         public void AddOrUpdateTransactions(IEnumerable<UserTransaction> transactions)

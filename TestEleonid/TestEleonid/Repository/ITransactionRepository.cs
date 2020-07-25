@@ -10,6 +10,8 @@ namespace TestEleonid.Repository
     {
         List<UserTransaction> GetAllTransactions();
 
+        List<UserTransaction> GetAllTransactions(string status, string type);
+
         void DeleteTransaction(int TransactionId);
 
         void EditTransaction(int TransactionId, string status);

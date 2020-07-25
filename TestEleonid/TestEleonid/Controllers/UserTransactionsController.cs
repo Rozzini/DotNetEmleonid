@@ -15,23 +15,26 @@ using TestEleonid.Repository;
 
 namespace TestEleonid.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[action]")]
     [ApiController]
     public class UserTransactionsController : ControllerBase
     {
         private readonly ITransactionRepository _repository;
-        private readonly ILogger<HomeController> _logger;
 
 
-        public UserTransactionsController(ITransactionRepository repository, ILogger<HomeController> logger)
+        public UserTransactionsController(ITransactionRepository repository)
         {
-            _logger = logger;
             _repository = repository;
         }
 
-        // GET: api/UserTransactions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserTransaction>>> GetTransactions(IFormFile file)
+        public async Task<ActionResult<IEnumerable<UserTransaction>>> GetTransactions()
+        {
+            return _repository.GetAllTransactions();
+        }
+
+        [HttpPost, Route("ImportFile")]
+        public async Task<IActionResult> ImportFile(IFormFile file)
         {
             if (file != null)
             {
@@ -42,103 +45,38 @@ namespace TestEleonid.Controllers
                     _repository.AddOrUpdateTransactions(records);
                 }
             }
-
-            return _repository.GetAllTransactions();
+            string GetTransactionsUrl = "~/api/GetTransactions";
+            return Redirect(GetTransactionsUrl);
         }
 
-
-        //public IActionResult DownloadFiles(string subDirectory)
-        //{
-        //    try
-        //    {
-        //        var (fileType, archiveData, archiveName) = _fileService.FetechFiles(subDirectory);
-
-        //        return File(archiveData, fileType, archiveName);
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        return BadRequest($"Error: {exception.Message}");
-        //    }
-        //}
-
-        // GET: api/UserTransactions/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserTransaction>> GetUserTransaction(int id)
+        [HttpGet, Route("DownloadFile")]
+        public IActionResult DownloadFile(string status, string type)
         {
-            //var userTransaction = await _context.Transactions.FindAsync(id);
-
-            //if (userTransaction == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return userTransaction;
-            return NoContent();
+            var memoryStream = new MemoryStream();
+            var streamWriter = new StreamWriter(memoryStream);
+            var csvWriter = new CsvWriter(streamWriter, System.Globalization.CultureInfo.CurrentCulture);
+            List<UserTransaction> a = _repository.GetAllTransactions(status, type);
+            csvWriter.WriteRecords(_repository.GetAllTransactions(status, type));
+            streamWriter.Flush();
+            memoryStream.Position = 0;
+            return File(memoryStream, "text/csv", "Transactions.csv");
         }
-
-        // PUT: api/UserTransactions/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserTransaction(int id, UserTransaction userTransaction)
+       
+        [HttpPost, Route("EditTransaction")]
+        public async Task<IActionResult> EditTransaction(int id, string status)
         {
-            //if (id != userTransaction.TransactionId)
-            //{
-            //    return BadRequest();
-            //}
-
-            //_context.Entry(userTransaction).State = EntityState.Modified;
-
-            //try
-            //{
-            //    await _context.SaveChangesAsync();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!UserTransactionExists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
-
-            return NoContent();
+            _repository.EditTransaction(id, status);
+            string GetTransactionsUrl = "~/api/GetTransactions";
+            return Redirect(GetTransactionsUrl);
         }
+        
 
-        // POST: api/UserTransactions
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<UserTransaction>> PostUserTransaction(UserTransaction userTransaction)
-        {
-            //_context.Transactions.Add(userTransaction);
-            //await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUserTransaction", new { id = userTransaction.TransactionId }, userTransaction);
-        }
-
-        // DELETE: api/UserTransactions/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<UserTransaction>> DeleteUserTransaction(int id)
         {
-            //var userTransaction = await _context.Transactions.FindAsync(id);
-            //if (userTransaction == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //_context.Transactions.Remove(userTransaction);
-            //await _context.SaveChangesAsync();
+            _repository.DeleteTransaction(id);
 
             return NoContent();
         }
-
-        //private bool UserTransactionExists(int id)
-        //{
-        //    return null;//_context.Transactions.Any(e => e.TransactionId == id);
-        //}
     }
 }
