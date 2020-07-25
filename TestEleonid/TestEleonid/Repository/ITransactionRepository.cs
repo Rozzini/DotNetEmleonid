@@ -8,14 +8,19 @@ namespace TestEleonid.Repository
 {
     public interface ITransactionRepository
     {
-        List<UserTransaction> GetAllTransactions();
+        //Returns list of all entities from DB
+        Task<List<UserTransaction>> GetAllTransactions();
 
-        List<UserTransaction> GetAllTransactions(string status, string type);
+        //Return list of all entities from DB depending on parameters 
+        Task<List<UserTransaction>> GetAllTransactions(string status, string type);
 
-        void DeleteTransaction(int TransactionId);
+        //Deletes selected entity
+        void DeleteTransaction(int transactionId);
 
-        void EditTransaction(int TransactionId, string status);
+        //Edit entities status with given id 
+        void EditTransaction(int transactionId, string status);
 
+        //If entity with given id exists in DB it will be updated else it will be added to DB
         void AddOrUpdateTransactions(IEnumerable<UserTransaction> records);
     }
 }
