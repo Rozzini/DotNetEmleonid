@@ -17,54 +17,54 @@ namespace TestEleonid.Repository
             this.appDbContext = appDbContext;
         }
 
-        public async void DeleteTransaction(int transactionId)
+        public void DeleteTransaction(int transactionId)
         {
-            var transaction = appDbContext.Transactions.FirstOrDefaultAsync(item => item.TransactionId == transactionId);
+            var transaction = appDbContext.Transactions.FirstOrDefault(item => item.TransactionId == transactionId);
             if (transaction != null)
             {
-                appDbContext.Transactions.Remove(transaction.Result);
-                await appDbContext.SaveChangesAsync();
+                appDbContext.Transactions.Remove(transaction);
+                appDbContext.SaveChanges();
             }
         }
 
-        public async void EditTransaction(int transactionId, string status)
+        public  void EditTransaction(int transactionId, string status)
         {
             if (status == null) return;
-            var transaction = appDbContext.Transactions.FirstOrDefaultAsync(item => item.TransactionId == transactionId);
+            var transaction = appDbContext.Transactions.FirstOrDefault(item => item.TransactionId == transactionId);
 
             if (transaction != null)
             {
-                transaction.Result.Status = status;
-                await appDbContext.SaveChangesAsync();
+                transaction.Status = status;
+                appDbContext.SaveChanges();
             }
         }
 
-        public async Task<List<UserTransaction>> GetAllTransactions()
+        public List<UserTransaction> GetAllTransactions()
         {
-            return await appDbContext.Transactions.ToListAsync();
+            return appDbContext.Transactions.ToList();
         }
 
-        public async Task<List<UserTransaction>> GetAllTransactions(string status, string type)
+        public List<UserTransaction> GetAllTransactions(string status, string type)
         {
             if(status == null && type == null)
             {
-                return await appDbContext.Transactions.ToListAsync();
+                return appDbContext.Transactions.ToList();
             }
             if(type == null)
             {
-                return await appDbContext.Transactions.Where(b => b.Status == status).ToListAsync();
+                return appDbContext.Transactions.Where(b => b.Status == status).ToList();
             }
             if(status == null)
             {
-                return await appDbContext.Transactions.Where(b => b.Type == type).ToListAsync();
+                return appDbContext.Transactions.Where(b => b.Type == type).ToList();
             }
             else
             {
-                return await appDbContext.Transactions.Where(b => b.Status == status && b.Type == type).ToListAsync();
+                return appDbContext.Transactions.Where(b => b.Status == status && b.Type == type).ToList();
             }
         }
 
-        public async void AddOrUpdateTransactions(IEnumerable<UserTransaction> transactions)
+        public void AddOrUpdateTransactions(IEnumerable<UserTransaction> transactions)
         {
             foreach (var data in transactions)
             {
@@ -77,7 +77,7 @@ namespace TestEleonid.Repository
                 data.TransactionId = 0;
                 appDbContext.Transactions.Add(data);
             }
-            await appDbContext.SaveChangesAsync();
+           appDbContext.SaveChanges();
         }
     }
 }

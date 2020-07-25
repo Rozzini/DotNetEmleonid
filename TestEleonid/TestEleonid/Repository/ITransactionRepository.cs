@@ -9,10 +9,10 @@ namespace TestEleonid.Repository
     public interface ITransactionRepository
     {
         //Returns list of all entities from DB
-        Task<List<UserTransaction>> GetAllTransactions();
+        List<UserTransaction> GetAllTransactions();
 
         //Return list of all entities from DB depending on parameters 
-        Task<List<UserTransaction>> GetAllTransactions(string status, string type);
+        List<UserTransaction> GetAllTransactions(string status, string type);
 
         //Deletes selected entity
         void DeleteTransaction(int transactionId);

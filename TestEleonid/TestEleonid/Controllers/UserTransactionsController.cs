@@ -30,7 +30,7 @@ namespace TestEleonid.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserTransaction>>> GetTransactions()
         {
-            return _repository.GetAllTransactions().Result.ToList();
+            return _repository.GetAllTransactions().ToList();
         }
 
         [HttpPost, Route("ImportFile")]
@@ -55,7 +55,7 @@ namespace TestEleonid.Controllers
             var memoryStream = new MemoryStream();
             var streamWriter = new StreamWriter(memoryStream);
             var csvWriter = new CsvWriter(streamWriter, System.Globalization.CultureInfo.CurrentCulture);
-            csvWriter.WriteRecords(_repository.GetAllTransactions(status, type).Result.ToList());
+            csvWriter.WriteRecords(_repository.GetAllTransactions(status, type));
             streamWriter.Flush();
             memoryStream.Position = 0;
             return File(memoryStream, "text/csv", "Transactions.csv");
