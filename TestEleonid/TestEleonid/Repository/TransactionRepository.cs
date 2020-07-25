@@ -29,20 +29,19 @@ namespace TestEleonid.Repository
 
             if (transaction != null)
             {
-
                 transaction.Status = status;
                 appDbContext.SaveChanges();
             }
         }
 
-        public List<UserTransaction> GetAllGetTransactions()
+        public List<UserTransaction> GetAllTransactions()
         {
             return appDbContext.Transactions.ToList();
         }
 
-        public void UpLoadTransaction(IEnumerable<UserTransaction> records)
+        public void AddOrUpdateTransactions(IEnumerable<UserTransaction> transactions)
         {
-            foreach (var data in records)
+            foreach (var data in transactions)
             {
                 var exists = appDbContext.Transactions.AsNoTracking().Any(item => item.TransactionId == data.TransactionId);
                 if (exists)
@@ -50,6 +49,7 @@ namespace TestEleonid.Repository
                     appDbContext.Transactions.Update(data);
                     continue;
                 }
+                data.TransactionId = 0;
                 appDbContext.Transactions.Add(data);
             }
             appDbContext.SaveChanges();

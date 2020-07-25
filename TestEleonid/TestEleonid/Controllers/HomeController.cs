@@ -6,55 +6,62 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CsvHelper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TestEleonid.Models;
+using TestEleonid.Repository;
 
 namespace TestEleonid.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ITransactionRepository _repository;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(ITransactionRepository repository, ILogger<HomeController> logger)
         {
             _logger = logger;
+            _repository = repository;
         }
 
-        //public async Task<IActionResult> UploadFile(IFormFile file)
-        //{
-        //if (file == null || file.Length == 0)
-        //    return Content("file not selected");
 
-        //var path = Path.Combine(
-        //            Directory.GetCurrentDirectory(), "wwwroot",
-        //            file.FileName);
-
-        //using (var stream = new FileStream(path, FileMode.Create))
-        //{
-        //    try
-        //    {
-        //        fileHelper.ConvertToPDF(stream, file.ContentType, file.FileName, targetLocation);
-        //        await file.CopyToAsync(stream);
-        //    }
-        //    catch
-        //    {
-        //        stream.Dispose();
-        //        throw;
-        //    }
-        //}
-        //return RedirectToAction("Files");
-        //}
-
-        //@"C:\temp\data.csv"
         public IActionResult Index()
         {
-            using (var reader = new StreamReader(@"C:\temp\data.csv"))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            return View(_repository.GetAllTransactions());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            if (file != null)
             {
-                var records = csv.GetRecords<UserTransaction>().ToList<UserTransaction>();
+                using (var reader = new StreamReader(file.OpenReadStream()))
+                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                {
+                    var records = csv.GetRecords<UserTransaction>().ToList<UserTransaction>();
+                    _repository.AddOrUpdateTransactions(records);
+                }
             }
-            return View();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Export()
+        {
+            //using (var memoryStream = new MemoryStream())
+            //{
+                var memoryStream = new MemoryStream();
+                var streamWriter = new StreamWriter(memoryStream);
+                var csvWriter = new CsvWriter(streamWriter, System.Globalization.CultureInfo.CurrentCulture);
+                csvWriter.WriteRecords(_repository.GetAllTransactions());
+                streamWriter.Flush();
+                memoryStream.Position = 0;
+                return File(memoryStream, "text/csv", "Transactions.csv");
+           // }
+           
         }
 
         public IActionResult Privacy()

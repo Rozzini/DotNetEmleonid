@@ -8,12 +8,12 @@ namespace TestEleonid.Repository
 {
     public interface ITransactionRepository
     {
-        List<UserTransaction> GetAllGetTransactions();
+        List<UserTransaction> GetAllTransactions();
 
         void DeleteTransaction(int TransactionId);
 
         void EditTransaction(int TransactionId, string status);
 
-        void UpLoadTransaction(IEnumerable<UserTransaction> records);
+        void AddOrUpdateTransactions(IEnumerable<UserTransaction> records);
     }
 }
