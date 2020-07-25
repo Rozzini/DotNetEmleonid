@@ -65,7 +65,7 @@ namespace TestEleonid.Controllers
         public async Task<IActionResult> EditTransaction(int id, string status)
         {
             _repository.EditTransaction(id, status);
-            string GetTransactionsUrl = "~/api/GetTransactions";
+            const string GetTransactionsUrl = "~/api/GetTransactions";
             return Redirect(GetTransactionsUrl);
         }
         
