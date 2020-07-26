@@ -9,8 +9,8 @@ using TestEleonid;
 namespace TestEleonid.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200724141238_2")]
-    partial class _2
+    [Migration("20200726140459_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,11 +33,11 @@ namespace TestEleonid.Migrations
                     b.Property<string>("ClientName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("TransactionId");
 

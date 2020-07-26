@@ -12,13 +12,13 @@ namespace TestEleonid.Repository
         List<UserTransaction> GetAllTransactions();
 
         //Return list of all entities from DB depending on parameters 
-        List<UserTransaction> GetAllTransactions(string status, string type);
+        List<UserTransaction> GetAllTransactions(Statuses? status, Types? type);
 
         //Deletes selected entity
         void DeleteTransaction(int transactionId);
 
         //Edit entities status with given id 
-        void EditTransaction(int transactionId, string status);
+        void EditTransaction(int transactionId, Statuses? status);
 
         //If entity with given id exists in DB it will be updated else it will be added to DB
         void AddOrUpdateTransactions(IEnumerable<UserTransaction> records);

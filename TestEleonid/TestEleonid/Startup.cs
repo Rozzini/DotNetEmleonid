@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using TestEleonid.BusinessLogic;
 using TestEleonid.Repository;
 
 namespace TestEleonid
@@ -25,7 +27,6 @@ namespace TestEleonid
 
         public IConfiguration Configuration { get; }
 
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -33,10 +34,13 @@ namespace TestEleonid
             services.AddControllersWithViews();
             services.AddMvc();
 
-            //http basic
+            services.AddControllersWithViews()
+                .AddJsonOptions(options =>
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TheCodeBuzz-Service", Version = "v1" });
+                c.SwaggerDoc( "v1", new OpenApiInfo { Title = "TheCodeBuzz-Service", Version = "v1" });
 
                 c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
                 {
@@ -46,6 +50,7 @@ namespace TestEleonid
                     In = ParameterLocation.Header,
                     Description = "Basic Authorization header using the Bearer scheme."
                 });
+
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -101,6 +106,9 @@ namespace TestEleonid
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+          
         }
+
+
     }
 }
