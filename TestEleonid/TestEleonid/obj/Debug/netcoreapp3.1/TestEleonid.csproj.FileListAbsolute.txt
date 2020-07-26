@@ -229,5 +229,7 @@ D:\Project\TestLeonid\DotNetEmleonid\TestEleonid\TestEleonid\bin\Debug\netcoreap
 D:\Project\TestLeonid\DotNetEmleonid\TestEleonid\TestEleonid\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
 D:\Project\TestLeonid\DotNetEmleonid\TestEleonid\TestEleonid\bin\Debug\netcoreapp3.1\System.Web.Http.dll
 D:\Project\TestLeonid\DotNetEmleonid\TestEleonid\TestEleonid\bin\Debug\netcoreapp3.1\Swashbuckle.Core.dll
+D:\Project\TestLeonid\DotNetEmleonid\TestEleonid\TestEleonid\bin\Debug\netcoreapp3.1\MediatR.dll
 D:\Project\TestLeonid\DotNetEmleonid\TestEleonid\TestEleonid\obj\Debug\netcoreapp3.1\TestEleonid.MvcApplicationPartsAssemblyInfo.cs
 D:\Project\TestLeonid\DotNetEmleonid\TestEleonid\TestEleonid\obj\Debug\netcoreapp3.1\TestEleonid.MvcApplicationPartsAssemblyInfo.cache
+D:\Project\TestLeonid\DotNetEmleonid\TestEleonid\TestEleonid\bin\Debug\netcoreapp3.1\MediatR.Extensions.Microsoft.DependencyInjection.dll

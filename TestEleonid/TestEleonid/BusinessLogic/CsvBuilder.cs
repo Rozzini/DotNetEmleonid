@@ -13,7 +13,7 @@ namespace TestEleonid.BusinessLogic
     public static class CsvBuilder
     {
 
-        public static MemoryStream ExportHelper(Func<Statuses?, Types?, List<UserTransaction>> repositoryGetAllTransactions, Statuses? status, Types? type)
+        public static MemoryStream ExportHelper(Func<Statuses?, Types?, IEnumerable<UserTransaction>> repositoryGetAllTransactions, Statuses? status, Types? type)
         {
             var memoryStream = new MemoryStream();
             var streamWriter = new StreamWriter(memoryStream);
