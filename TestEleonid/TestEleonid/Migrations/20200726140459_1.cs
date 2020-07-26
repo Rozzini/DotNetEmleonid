@@ -2,7 +2,7 @@
 
 namespace TestEleonid.Migrations
 {
-    public partial class _2 : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,8 +12,8 @@ namespace TestEleonid.Migrations
                 {
                     TransactionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Status = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: true),
+                    Type = table.Column<int>(nullable: true),
                     ClientName = table.Column<string>(nullable: true),
                     Amount = table.Column<string>(nullable: true)
                 },

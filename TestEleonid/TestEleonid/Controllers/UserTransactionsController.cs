@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TestEleonid;
+using TestEleonid.BusinessLogic;
 using TestEleonid.Models;
 using TestEleonid.Repository;
 
@@ -21,6 +22,8 @@ namespace TestEleonid.Controllers
     {
         private readonly ITransactionRepository _repository;
 
+
+        const string GetTransactionsUrl = "~/api/GetTransactions";
 
         public UserTransactionsController(ITransactionRepository repository)
         {
@@ -36,36 +39,20 @@ namespace TestEleonid.Controllers
         [HttpPost, Route("ImportFile")]
         public async Task<IActionResult> ImportFile(IFormFile file)
         {
-            if (file != null)
-            {
-                using (var reader = new StreamReader(file.OpenReadStream()))
-                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-                {
-                    var records = csv.GetRecords<UserTransaction>().ToList<UserTransaction>();
-                    _repository.AddOrUpdateTransactions(records);
-                }
-            }
-            string GetTransactionsUrl = "~/api/GetTransactions";
+            CsvBuilder.ImportHelper(_repository.AddOrUpdateTransactions, file);
             return Redirect(GetTransactionsUrl);
         }
 
         [HttpGet, Route("DownloadFile")]
-        public IActionResult DownloadFile(string status, string type)
+        public IActionResult ExportFile(Statuses? status, Types? type)
         {
-            var memoryStream = new MemoryStream();
-            var streamWriter = new StreamWriter(memoryStream);
-            var csvWriter = new CsvWriter(streamWriter, System.Globalization.CultureInfo.CurrentCulture);
-            csvWriter.WriteRecords(_repository.GetAllTransactions(status, type));
-            streamWriter.Flush();
-            memoryStream.Position = 0;
-            return File(memoryStream, "text/csv", "Transactions.csv");
+            return File(CsvBuilder.ExportHelper(_repository.GetAllTransactions, status,type), "text/csv", "Transactions.csv");
         }
        
         [HttpPost, Route("EditTransaction")]
-        public async Task<IActionResult> EditTransaction(int id, string status)
+        public async Task<IActionResult> EditTransaction(int id, Statuses? status)
         {
             _repository.EditTransaction(id, status);
-            const string GetTransactionsUrl = "~/api/GetTransactions";
             return Redirect(GetTransactionsUrl);
         }
         
@@ -74,7 +61,6 @@ namespace TestEleonid.Controllers
         public async Task<ActionResult<UserTransaction>> DeleteUserTransaction(int id)
         {
             _repository.DeleteTransaction(id);
-
             return NoContent();
         }
     }

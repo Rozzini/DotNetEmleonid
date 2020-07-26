@@ -27,7 +27,7 @@ namespace TestEleonid.Repository
             }
         }
 
-        public  void EditTransaction(int transactionId, string status)
+        public  void EditTransaction(int transactionId, Statuses? status)
         {
             if (status == null) return;
             var transaction = appDbContext.Transactions.FirstOrDefault(item => item.TransactionId == transactionId);
@@ -44,7 +44,7 @@ namespace TestEleonid.Repository
             return appDbContext.Transactions.ToList();
         }
 
-        public List<UserTransaction> GetAllTransactions(string status, string type)
+        public List<UserTransaction> GetAllTransactions(Statuses? status, Types? type)
         {
             if(status == null && type == null)
             {
