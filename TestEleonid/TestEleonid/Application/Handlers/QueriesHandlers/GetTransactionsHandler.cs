@@ -8,7 +8,7 @@ using TestEleonid.Application.Queries;
 using TestEleonid.Models;
 using TestEleonid.Repository;
 
-namespace TestEleonid.Application.Handlers
+namespace TestEleonid.Application.Handlers.QueriesHandlers
 {
     public class GetTransactionsHandler : IRequestHandler<GetTransactionsQuery, IEnumerable<UserTransaction>>
     {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TestEleonid.Application.Commands;
 using TestEleonid.Repository;
 
-namespace TestEleonid.Application.Handlers
+namespace TestEleonid.Application.Handlers.CommandsHandlers
 {
     public class DeleteUserTransactionHandler : IRequestHandler<DeleteUserTransactionCommand>
     {
