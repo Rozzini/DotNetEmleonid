@@ -9,7 +9,7 @@ using TestEleonid.Application.Queries;
 using TestEleonid.BusinessLogic;
 using TestEleonid.Repository;
 
-namespace TestEleonid.Application.Handlers
+namespace TestEleonid.Application.Handlers.QueriesHandlers
 {
     public class ExportFileHandler : IRequestHandler<ExportFileQuery, MemoryStream>
     {

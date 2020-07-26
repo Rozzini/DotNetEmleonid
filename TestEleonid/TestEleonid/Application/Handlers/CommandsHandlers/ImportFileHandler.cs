@@ -8,7 +8,7 @@ using TestEleonid.Application.Commands;
 using TestEleonid.BusinessLogic;
 using TestEleonid.Repository;
 
-namespace TestEleonid.Application.Handlers
+namespace TestEleonid.Application.Handlers.CommandsHandlers
 {
     public class ImportFileHandler : IRequestHandler<ImportFileCommand>
     {
