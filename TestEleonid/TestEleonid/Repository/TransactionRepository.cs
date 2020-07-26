@@ -39,28 +39,28 @@ namespace TestEleonid.Repository
             }
         }
 
-        public List<UserTransaction> GetAllTransactions()
+        public IEnumerable<UserTransaction> GetAllTransactions()
         {
-            return appDbContext.Transactions.ToList();
+            return appDbContext.Transactions;
         }
 
-        public List<UserTransaction> GetAllTransactions(Statuses? status, Types? type)
+        public IEnumerable<UserTransaction> GetTransactionsByParameters(Statuses? status, Types? type)
         {
             if(status == null && type == null)
             {
-                return appDbContext.Transactions.ToList();
+                return appDbContext.Transactions;
             }
             if(type == null)
             {
-                return appDbContext.Transactions.Where(b => b.Status == status).ToList();
+                return appDbContext.Transactions.Where(b => b.Status == status);
             }
             if(status == null)
             {
-                return appDbContext.Transactions.Where(b => b.Type == type).ToList();
+                return appDbContext.Transactions.Where(b => b.Type == type);
             }
             else
             {
-                return appDbContext.Transactions.Where(b => b.Status == status && b.Type == type).ToList();
+                return appDbContext.Transactions.Where(b => b.Status == status && b.Type == type);
             }
         }
 
