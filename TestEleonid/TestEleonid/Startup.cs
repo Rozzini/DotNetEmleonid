@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,7 +34,7 @@ namespace TestEleonid
             services.AddTransient<ITransactionRepository, TransactionRepository>();
             services.AddControllersWithViews();
             services.AddMvc();
-
+            services.AddMediatR(typeof(Startup));
             services.AddControllersWithViews()
                 .AddJsonOptions(options =>
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
@@ -69,7 +70,6 @@ namespace TestEleonid
 
             });
         }
-
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
